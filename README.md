@@ -2,6 +2,9 @@
 **Classify:**  
 BLACKHOLES Q[q]
 
+- ⚡ Fun fact: I am not a national security threat :) BUT I am an international security threat :(
+
+
 <!--
 **rootnoob/rootnoob** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
