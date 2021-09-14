@@ -7,7 +7,20 @@ BLACKHOLES Q[q]
 Mi6 hate me |
 Mi5 love me
 </summary>
-  - ⚡ Fun fact: I am not a national security threat :) BUT I am an international security threat :(  
+  
+  - ⚡ Fun fact:  
+  I am not a national security threat :)  
+  BUT I am an international security threat :(  
+</details>
+
+
+<details>
+  <summary>
+    Ignore
+  </summary>
+  
+  NaN | Not a Noob  
+  Nanny Mcphee | Not Me
 </details>
 
 <!--
