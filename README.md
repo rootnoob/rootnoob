@@ -23,6 +23,9 @@ Mi5 love me
   Nanny Mcphee | Not Me
 </details>
 
+- 📫 LinkedIn: - https://linkedin.com/in/notjamesandrews/
+
+
 <!--
 **rootnoob/rootnoob** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
