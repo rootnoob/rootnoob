@@ -15,7 +15,7 @@ A laptop that works well with qubes (see [here](https://forum.qubes-os.org/t/com
 [Not sure if this is better suited for general.?] @deeplow  
 </details> 
 
-<details=>
+<details>
 <summary>Disclaimer</summary>
 I will refine this as people criticise and give feedback, for now it's quite high-level: But I hope somebody finds it useful.  
 </details>  
