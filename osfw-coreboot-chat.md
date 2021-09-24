@@ -70,16 +70,17 @@ To keep the list slim, at each layer, (excluding layer -1), will be requirements
 | Lenovo                                         |                                                      | M     |                                                                                                                                |        |        |       |       |
 
 <details>  
-  <summary>FaQ</summary>
+  <summary>FaQ</summary>  
+  
 **Why Intel-only?**  
-If, (you know of any open-source projects that document how to neutralise AMD-PSP, (and know of any heads equivs, etc)): I will revise this.    
-**Why would anybody worry about Intel ME as a threat?**  
-We all have different Threat Models - Defense in Depth is always better than none.  
+If, (you know of any open-source projects that document how to neutralise AMD-PSP, (and know of any heads equivs, etc)): I will revise this.      
+**Why would anybody worry about Intel ME as a threat?**   
+We all have different Threat Models - Defense in Depth is always better than none.    
 **Why have you only mentioned coreboot & heads?**  
 I am not aware of any equivalents that satisfy the other requirements.  
 I am not aware of any 'stable' equivs. that satisfy the other requirements.  
 **Why 16gb ram min, 32gb preferred?**  
-To tame R4.1 && most use-cases 16gb is required min. 32gb is preferred for long-term support.  
+To tame R4.1 && most use-cases 16gb is required min. 32gb is preferred for long-term support.   
 **Why TXE removable preferred?**  
 Because me_cleaner now supports this, and it is DiD at little added cost.  
 **Why 4 core-option minimum?**  
@@ -90,9 +91,10 @@ To tame R4.1 && most use-cases 16gb is required min. 32gb is preferred for long-
 Because me_cleaner now supports this, and it is DiD at little added cost.  
 **Why 4 core-option minimum?**  
 Because some of us like to pin CPU0 to dom0 for security.  
-**Why <= 5th gen intel-core?**  
-Because only that year's TXE has been confirmed removable.  
+**Why <= 5th gen intel-core?**    
+Because only that years TXE has been confirmed removable.  
 Every additional generation is more complex hardware, not just Intel ME but the mobo, firmware etc, and I do not have a holistic understanding of all the extra complexity - so I deem it an unacceptable risk.  
+
 </details>
 
 
