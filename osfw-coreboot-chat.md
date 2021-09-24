@@ -64,10 +64,10 @@ To keep the list slim, at each layer, (excluding layer -1), will be requirements
 
 <h2>Current List (keep checking)</h2>  
 
-| Brand                                          | Model                                                | rYear | Intel-M                                                                                                                        | TDP    | CPU-MC | RAM-M | Heads |
-|------------------------------------------------|------------------------------------------------------|-------|--------------------------------------------------------------------------------------------------------------------------------|--------|--------|-------|-------|
-| [Lenovo](https://en.wikipedia.org/wiki/Lenovo) | [T430](https://www.thinkwiki.org/wiki/Category:T430) | 2012  | [i-3x](https://ark.intel.com/content/www/us/en/ark/products/70846/intel-core-i7-3840qm-processor-8m-cache-up-to-3-80-ghz.html) | 35/45W | 4      | 16GB  | yes   |
-| Lenovo                                         |                                                      | M     |                                                                                                                                |        |        |       |       |
+| Brand                                          | Model                                                | rYear | CPU-Max                                                                                                                           | TDP(s) | Cores                                      | RAM-M | Heads |
+|------------------------------------------------|------------------------------------------------------|-------|-----------------------------------------------------------------------------------------------------------------------------------|--------|--------------------------------------------|-------|-------|
+| [Lenovo](https://en.wikipedia.org/wiki/Lenovo) | [T430](https://www.thinkwiki.org/wiki/Category:T430) | 2012  | [i7-3-QM](https://ark.intel.com/content/www/us/en/ark/products/70846/intel-core-i7-3840qm-processor-8m-cache-up-to-3-80-ghz.html) | 35/45W | 2-4                                        | 16GB  | yes   |
+| [Lenovo](https://en.wikipedia.org/wiki/Lenovo) | [X230](https://www.thinkwiki.org/wiki/Category:T430) | 2012  | [i7-3-QE](https://ark.intel.com/content/www/us/en/ark/products/65709/intel-core-i7-3615qe-processor-6m-cache-up-to-3-30-ghz.html) | 13-45W | [2-4](https://www.xyte.ch/thinkpads/x230/) | 16GB  | yes   |
 
 <details>  
   <summary>FaQ</summary>  
