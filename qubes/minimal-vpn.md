@@ -21,3 +21,7 @@ Set RAM to 400MB, CPU to 2
 Set provides_network to true  
 Set netVM to sys-firewall  
 Add service 'network-manager'  
+
+Add vpn config to vpn-1  
+
+Notes:  Notifications do not appear connecting/connected - requires additional package.  
