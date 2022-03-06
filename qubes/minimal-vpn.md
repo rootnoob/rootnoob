@@ -63,7 +63,7 @@ Shutdown the VM.
 </b> Notes: Make sure that if adding a password you select 'store this password for all users', else you will need to manually enter the password eacha and every-time you start your dispVM </b>  
 
 6.5) Create a new VM with type: DispVM, based on 'vpn-mullvad', I shall call mine 'mullvad-usa'  
-    Set RAM to 400MB, CPU to 2
+    Set RAM to 400MB, CPU to 2  
     Set netVM to sys-firewall  
     Add service 'network-manager'  
     Set provides_network to true  
