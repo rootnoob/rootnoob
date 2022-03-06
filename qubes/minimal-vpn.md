@@ -53,8 +53,7 @@ All changes in the appvm will be visible to the dispVM. Hence, if you wish to us
 6.3) Copy your VPN config(s) to vpn-mullvad from the VM they are stored, using the qvm-copy command (in the VM which they are stored)  
 `qvm-copy vpn-config-file-location`  
 
-6.4) Add VPN config to network-manager via 
-From xterm, run the following command:  
+6.4) From xterm, run the following command:  
 `nm-connection-editor`  
 Click the + icon, and add your VPN config files.  
 
