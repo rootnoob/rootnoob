@@ -31,7 +31,7 @@ Add service 'network-manager'
 Ensure your Appvm has:
 Set disposable_template to true
 
-6.1) Create a new dispVM based on the appVM 'updateAppVM', I shall name mine 'updateDisp'  
+6.1) Create a new dispVM based on the appVM 'updateAppVM', I shall name mine 'sys-update'  
     Set RAM to 400MB, CPU to 2   
     Set netVM to none  
     Add service 'network-manager'   
