@@ -21,9 +21,7 @@ Shutdown the VM.
 4) Create an appVM based on the template 'f35min-update', I shall name mine 'updateAppVM'  
 Set RAM to 400MB, CPU to 2  
 Set provides_network to true  
-Set netVM to sys-firewall  
-Add service 'network-manager'  
- 
+Set netVM to sys-firewall   
 
 
 <h3>Disposable updateVM</h3> 
@@ -34,7 +32,6 @@ Set disposable_template to true
 6.1) Create a new dispVM based on the appVM 'updateAppVM', I shall name mine 'sys-update'  
     Set RAM to 400MB, CPU to 2   
     Set netVM to none  
-    Add service 'network-manager'   
 
 
 
