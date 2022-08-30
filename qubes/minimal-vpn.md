@@ -20,6 +20,9 @@ For OpenVPN:
 `sudo apt-get install network-manager-openvpn network-manager-openvpn-gnome`  
 For Wireguard:  
 `sudo apt-get install wireguard`  
+For IPSec:  
+`sudo apt-get install `  
+
 
 Shutdown the VM.  
 
