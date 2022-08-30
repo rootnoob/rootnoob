@@ -74,15 +74,16 @@ qvm-service $PiholeVM disable-dns-server on
 qvm-prefs $PiholeVM provides_network true  
 
 ### finalize installation  
-# Set the Pihole-Qube as NetVM  
-# Open up a browser in an AppVM and connect to the Pihole IP  
-# http://<YOURPIHOLEIP>/admin/settings.php?tab=dns  
-# Disable Upstream DNS Servers (on the left)  
-# Enable Upstream DNS Servers (on the right)  
-#    [X] Custom 1 (IPv4)  
-#    127.0.0.1#5300  
-# Scroll down and enable DNSSEC  
-#    [X] Use DNSSEC  
+	
+Set the Pihole-Qube as NetVM  
+Open up a browser in an AppVM and connect to the Pihole IP  
+http://<YOURPIHOLEIP>/admin/settings.php?tab=dns  
+Disable Upstream DNS Servers (on the left)  
+Enable Upstream DNS Servers (on the right)  
+   [X] Custom 1 (IPv4)  
+   127.0.0.1#5300  
+Scroll down and enable DNSSEC  
+   [X] Use DNSSEC  
 
 # Add blocklists via http://<YOURPIHOLEIP>/admin/groups-adists.php  
 # You can use my list of blocklists (scroll down)  
