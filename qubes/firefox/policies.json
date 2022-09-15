@@ -91,7 +91,7 @@
 		"SearchEngines": {
 			"PreventInstalls": true
 		},
-		"CaptivePortal": true,
+		"CaptivePortal": false,
 		"DisableAppUpdate": true,
 		"DisableFirefoxAccounts": true,
 		"DisableFeedbackCommands": true,
