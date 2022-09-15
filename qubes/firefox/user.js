@@ -1045,4 +1045,370 @@ user_pref("webgl.disabled", true);
  * caches, searches, cookies, localStorage, IndexedDB etc (which you can achieve in normal mode).
  * In fact, PB mode limits or removes the ability to control some of these, and you need to quit
  * Firefox to clear them. PB is best used as a one off window (Menu>New Private Window) to provide
- * a temporary self-contained new session
+ * a temporary self-contained new session. Close all Private Windows to clear the PB mode session.
+ * [SETTING] Privacy & Security>History>Custom Settings>Always use private browsing mode
+ * [1] https://wiki.mozilla.org/Private_Browsing
+ * [2] https://support.mozilla.org/kb/common-myths-about-private-browsing ***/
+   // user_pref("browser.privatebrowsing.autostart", true);
+/* 5002: disable memory cache
+ * capacity: -1=determine dynamically (default), 0=none, n=memory capacity in kibibytes ***/
+   // user_pref("browser.cache.memory.enable", false);
+   // user_pref("browser.cache.memory.capacity", 0);
+/* 5003: disable saving passwords
+ * [NOTE] This does not clear any passwords already saved
+ * [SETTING] Privacy & Security>Logins and Passwords>Ask to save logins and passwords for websites ***/
+user_pref("signon.rememberSignons", false);
+/* 5004: disable permissions manager from writing to disk [FF41+] [RESTART]
+ * [NOTE] This means any permission changes are session only
+ * [1] https://bugzilla.mozilla.org/967812 ***/
+user_pref("permissions.memory_only", true); // [HIDDEN PREF]
+/* 5005: disable intermediate certificate caching [FF41+] [RESTART]
+ * [NOTE] This affects login/cert/key dbs. The effect is all credentials are session-only.
+ * Saved logins and passwords are not available. Reset the pref and restart to return them ***/
+user_pref("security.nocertdb", true); // [HIDDEN PREF]
+/* 5006: disable favicons in history and bookmarks
+ * [NOTE] Stored as data blobs in favicons.sqlite, these don't reveal anything that your
+ * actual history (and bookmarks) already do. Your history is more detailed, so
+ * control that instead; e.g. disable history, clear history on close, use PB mode
+ * [NOTE] favicons.sqlite is sanitized on Firefox close ***/
+   // user_pref("browser.chrome.site_icons", false);
+/* 5007: exclude "Undo Closed Tabs" in Session Restore ***/
+   // user_pref("browser.sessionstore.max_tabs_undo", 0);
+/* 5008: disable resuming session from crash ***/
+   // user_pref("browser.sessionstore.resume_from_crash", false);
+/* 5009: disable "open with" in download dialog [FF50+]
+ * Application data isolation [1]
+ * [1] https://bugzilla.mozilla.org/1281959 ***/
+user_pref("browser.download.forbid_open_with", true);
+/* 5010: disable location bar suggestion types
+ * [SETTING] Privacy & Security>Address Bar>When using the address bar, suggest ***/
+   // user_pref("browser.urlbar.suggest.history", false);
+   // user_pref("browser.urlbar.suggest.bookmark", false);
+   // user_pref("browser.urlbar.suggest.openpage", false);
+user_pref("browser.urlbar.suggest.topsites", false); // [FF78+]
+/* 5011: disable location bar dropdown
+ * This value controls the total number of entries to appear in the location bar dropdown ***/
+   // user_pref("browser.urlbar.maxRichResults", 0);
+/* 5012: disable location bar autofill
+ * [1] https://support.mozilla.org/kb/address-bar-autocomplete-firefox#w_url-autocomplete ***/
+   // user_pref("browser.urlbar.autoFill", false);
+/* 5013: disable browsing and download history
+ * [NOTE] We also clear history and downloads on exit (2803)
+ * [SETTING] Privacy & Security>History>Custom Settings>Remember browsing and download history ***/
+   // user_pref("places.history.enabled", false);
+/* 5014: disable Windows jumplist [WINDOWS] ***/
+user_pref("browser.taskbar.lists.enabled", false);
+user_pref("browser.taskbar.lists.frequent.enabled", false);
+user_pref("browser.taskbar.lists.recent.enabled", false);
+user_pref("browser.taskbar.lists.tasks.enabled", false);
+/* 5015: disable Windows taskbar preview [WINDOWS] ***/
+user_pref("browser.taskbar.previews.enable", false); // [DEFAULT: false]
+/* 5016: discourage downloading to desktop
+ * 0=desktop, 1=downloads (default), 2=last used
+ * [SETTING] To set your default "downloads": General>Downloads>Save files to ***/
+   // user_pref("browser.download.folderList", 2);
+
+/*** [SECTION 5500]: OPTIONAL HARDENING
+   Not recommended. Keep in mind that these can cause breakage and performance
+   issues, are mostly fingerpintable, and the threat model is practically zero
+***/
+/* 5501: disable MathML (Mathematical Markup Language) [FF51+]
+ * [1] https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=mathml ***/
+   // user_pref("mathml.disabled", true); // 1173199
+/* 5502: disable in-content SVG (Scalable Vector Graphics) [FF53+]
+ * [1] https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=firefox+svg ***/
+   // user_pref("svg.disabled", true); // 1216893
+/* 5503: disable graphite
+ * [1] https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=firefox+graphite
+ * [2] https://en.wikipedia.org/wiki/Graphite_(SIL) ***/
+   // user_pref("gfx.font_rendering.graphite.enabled", false);
+/* 5504: disable asm.js [FF22+]
+ * [1] http://asmjs.org/
+ * [2] https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=asm.js
+ * [3] https://rh0dev.github.io/blog/2017/the-return-of-the-jit/ ***/
+   // user_pref("javascript.options.asmjs", false);
+/* 5505: disable Ion and baseline JIT to harden against JS exploits
+ * [NOTE] In FF75+, when **both** Ion and JIT are disabled, **and** the new
+ * hidden pref is enabled, then Ion can still be used by extensions (1599226)
+ * [1] https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=firefox+jit ***/
+   // user_pref("javascript.options.ion", false);
+   // user_pref("javascript.options.baselinejit", false);
+   // user_pref("javascript.options.jit_trustedprincipals", true); // [FF75+] [HIDDEN PREF]
+/* 5506: disable WebAssembly [FF52+]
+ * Vulnerabilities [1] have increasingly been found, including those known and fixed
+ * in native programs years ago [2]. WASM has powerful low-level access, making
+ * certain attacks (brute-force) and vulnerabilities more possible
+ * [STATS] ~0.2% of websites, about half of which are for crytopmining / malvertising [2][3]
+ * [1] https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=wasm
+ * [2] https://spectrum.ieee.org/tech-talk/telecom/security/more-worries-over-the-security-of-web-assembly
+ * [3] https://www.zdnet.com/article/half-of-the-websites-using-webassembly-use-it-for-malicious-purposes ***/
+   // user_pref("javascript.options.wasm", false);
+
+/*** [SECTION 6000]: DON'T TOUCH ***/
+/* 6001: enforce Firefox blocklist
+ * [WHY] It includes updates for "revoked certificates"
+ * [1] https://blog.mozilla.org/security/2015/03/03/revoking-intermediate-certificates-introducing-onecrl/ ***/
+user_pref("extensions.blocklist.enabled", true); // [DEFAULT: true]
+/* 6002: enforce no referer spoofing
+ * [WHY] Spoofing can affect CSRF (Cross-Site Request Forgery) protections ***/
+user_pref("network.http.referer.spoofSource", false); // [DEFAULT: false]
+/* 6003: enforce CSP (Content Security Policy)
+ * [1] https://developer.mozilla.org/docs/Web/HTTP/CSP ***/
+user_pref("security.csp.enable", true); // [DEFAULT: true]
+/* 6004: enforce a security delay on some confirmation dialogs such as install, open/save
+ * [1] https://www.squarefree.com/2004/07/01/race-conditions-in-security-dialogs/ ***/
+user_pref("security.dialog_enable_delay", 1000); // [DEFAULT: 1000]
+/* 6005: enforce window.opener protection [FF65+]
+ * Makes rel=noopener implicit for target=_blank in anchor and area elements when no rel attribute is set ***/
+user_pref("dom.targetBlankNoOpener.enabled", true); // [DEFAULT: true FF79+]
+/* 6006: enforce "window.name" protection [FF82+]
+ * If a new page from another domain is loaded into a tab, then window.name is set to an empty string. The original
+ * string is restored if the tab reverts back to the original page. This change prevents some cross-site attacks
+ * [TEST] https://arkenfox.github.io/TZP/tests/windownamea.html ***/
+user_pref("privacy.window.name.update.enabled", true); // [DEFAULT: true FF86+]
+/* 6050: prefsCleaner: reset previously active items removed from arkenfox in 79-91 ***/
+   // user_pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "");
+   // user_pref("browser.send_pings.require_same_host", "");
+   // user_pref("dom.allow_cut_copy", "");
+   // user_pref("dom.vibrator.enabled", "");
+   // user_pref("media.getusermedia.audiocapture.enabled", "");
+   // user_pref("media.getusermedia.browser.enabled", "");
+   // user_pref("media.getusermedia.screensharing.enabled", "");
+   // user_pref("media.gmp-widevinecdm.visible", "");
+   // user_pref("network.http.redirection-limit", "");
+   // user_pref("privacy.partition.network_state", "");
+   // user_pref("security.insecure_connection_icon.enabled", ""); // [DEFAULT: true FF70+]
+   // user_pref("security.mixed_content.block_active_content", ""); // [DEFAULT: true since at least FF60]
+   // user_pref("security.ssl.enable_ocsp_stapling", ""); // [DEFAULT: true FF26+]
+   // user_pref("webgl.disable-fail-if-major-performance-caveat", ""); // [DEFAULT: true FF86+]
+   // user_pref("webgl.enable-webgl2", "");
+   // user_pref("webgl.min_capability_mode", "");
+
+/*** [SECTION 7000]: DON'T BOTHER ***/
+/* 7001: disable APIs
+ * Location-Aware Browsing, Full Screen, offline cache (appCache), Virtual Reality
+ * [WHY] The API state is easily fingerprintable. Geo and VR are behind prompts (7002).
+ * appCache storage capability was removed in FF90. Full screen requires user interaction ***/
+   // user_pref("geo.enabled", false);
+   // user_pref("full-screen-api.enabled", false);
+   // user_pref("browser.cache.offline.enable", false);
+   // user_pref("dom.vr.enabled", false);
+/* 7002: set default permissions
+ * Location, Camera, Microphone, Notifications [FF58+] Virtual Reality [FF73+]
+ * 0=always ask (default), 1=allow, 2=block
+ * [WHY] These are fingerprintable via Permissions API, except VR. Just add site
+ * exceptions as allow/block for frequently visited/annoying sites: i.e. not global
+ * [SETTING] to add site exceptions: Ctrl+I>Permissions>
+ * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Settings ***/
+   // user_pref("permissions.default.geo", 0);
+   // user_pref("permissions.default.camera", 0);
+   // user_pref("permissions.default.microphone", 0);
+user_pref("permissions.default.desktop-notification", 2);
+   // user_pref("permissions.default.xr", 0); // Virtual Reality
+/* 7003: disable non-modern cipher suites [1]
+ * [WHY] Passive fingerprinting. Minimal/non-existent threat of downgrade attacks
+ * [1] https://browserleaks.com/ssl ***/
+   // user_pref("security.ssl3.ecdhe_ecdsa_aes_256_sha", false);
+   // user_pref("security.ssl3.ecdhe_ecdsa_aes_128_sha", false);
+   // user_pref("security.ssl3.ecdhe_rsa_aes_128_sha", false);
+   // user_pref("security.ssl3.ecdhe_rsa_aes_256_sha", false);
+   // user_pref("security.ssl3.rsa_aes_128_gcm_sha256", false); // no PFS
+   // user_pref("security.ssl3.rsa_aes_256_gcm_sha384", false); // no PFS
+   // user_pref("security.ssl3.rsa_aes_128_sha", false); // no PFS
+   // user_pref("security.ssl3.rsa_aes_256_sha", false); // no PFS
+   // user_pref("security.ssl3.rsa_des_ede3_sha", false); // 3DES
+/* 7004: control TLS versions
+ * [WHY] Passive fingerprinting. Downgrades are still possible: behind user interaction ***/
+   // user_pref("security.tls.version.min", 3); // [DEFAULT: 3]
+   // user_pref("security.tls.version.max", 4);
+/* 7005: disable SSL session IDs [FF36+]
+ * [WHY] Passive fingerprinting and perf costs. These are session-only and isolated
+ * with network partitioning (FF85+) or when using FPI and/or containers ***/
+   // user_pref("security.ssl.disable_session_identifiers", true); // [HIDDEN PREF]
+/* 7006: onions
+ * [WHY] Firefox doesn't support hidden services. Use Tor Browser ***/
+   // user_pref("dom.securecontext.whitelist_onions", true); // 1382359
+   // user_pref("network.http.referer.hideOnionSource", true); // 1305144
+/* 7007: referers
+ * [WHY] Only cross-origin referers (1600s) need control ***/
+   // user_pref("network.http.sendRefererHeader", 2);
+   // user_pref("network.http.referer.trimmingPolicy", 0);
+/* 7008: set the default Referrer Policy [FF59+]
+ * 0=no-referer, 1=same-origin, 2=strict-origin-when-cross-origin, 3=no-referrer-when-downgrade
+ * [WHY] Defaults are fine. They can be overridden by a site-controlled Referrer Policy ***/
+   // user_pref("network.http.referer.defaultPolicy", 2); // [DEFAULT: 2 FF87+]
+   // user_pref("network.http.referer.defaultPolicy.pbmode", 2); // [DEFAULT: 2]
+/* 7009: disable HTTP2
+ * [WHY] Passive fingerprinting. ~50% of sites use HTTP2 [1]
+ * [1] https://w3techs.com/technologies/details/ce-http2/all/all ***/
+   // user_pref("network.http.spdy.enabled", false);
+   // user_pref("network.http.spdy.enabled.deps", false);
+   // user_pref("network.http.spdy.enabled.http2", false);
+   // user_pref("network.http.spdy.websockets", false); // [FF65+]
+/* 7010: disable HTTP Alternative Services [FF37+]
+ * [WHY] Already isolated by network partitioning (FF85+) or FPI ***/
+   // user_pref("network.http.altsvc.enabled", false);
+   // user_pref("network.http.altsvc.oe", false);
+/* 7011: disable website control over browser right-click context menu
+ * [WHY] Just use Shift-Right-Click ***/
+   // user_pref("dom.event.contextmenu.enabled", false);
+/* 7012: disable icon fonts (glyphs) and local fallback rendering
+ * [WHY] Breakage, font fallback is equivalency, also RFP
+ * [1] https://bugzilla.mozilla.org/789788
+ * [2] https://gitlab.torproject.org/legacy/trac/-/issues/8455 ***/
+   // user_pref("gfx.downloadable_fonts.enabled", false); // [FF41+]
+   // user_pref("gfx.downloadable_fonts.fallback_delay", -1);
+/* 7013: disable Clipboard API
+ * [WHY] Fingerprintable. Breakage. Cut/copy/paste require user
+ * interaction, and paste is limited to focused editable fields ***/
+   // user_pref("dom.event.clipboardevents.enabled", false);
+/* 7014: disable System Add-on updates
+ * [WHY] It can compromise security. System addons ship with prefs, use those ***/
+   // user_pref("extensions.systemAddon.update.enabled", false); // [FF62+]
+   // user_pref("extensions.systemAddon.update.url", ""); // [FF44+]
+
+/*** [SECTION 8000]: DON'T BOTHER: NON-RFP
+   [WHY] They are insufficient to help anti-fingerprinting and do more harm than good
+   [WARNING] DO NOT USE with RFP. RFP already covers these and they can interfere
+***/
+/* 8001: disable APIs ***/
+   // user_pref("device.sensors.enabled", false);
+   // user_pref("dom.enable_performance", false);
+   // user_pref("dom.enable_resource_timing", false);
+   // user_pref("dom.gamepad.enabled", false);
+   // user_pref("dom.netinfo.enabled", false);
+   // user_pref("dom.webaudio.enabled", false);
+/* 8002: disable other ***/
+   // user_pref("browser.display.use_document_fonts", 0);
+   // user_pref("browser.zoom.siteSpecific", false);
+   // user_pref("dom.w3c_touch_events.enabled", 0);
+   // user_pref("media.navigator.enabled", false);
+   // user_pref("media.ondevicechange.enabled", false);
+   // user_pref("media.video_stats.enabled", false);
+   // user_pref("media.webspeech.synth.enabled", false);
+   // user_pref("webgl.enable-debug-renderer-info", false);
+/* 8003: spoof ***/
+   // user_pref("dom.maxHardwareConcurrency", 2);
+   // user_pref("font.system.whitelist", ""); // [HIDDEN PREF]
+   // user_pref("general.appname.override", ""); // [HIDDEN PREF]
+   // user_pref("general.appversion.override", ""); // [HIDDEN PREF]
+   // user_pref("general.buildID.override", ""); // [HIDDEN PREF]
+   // user_pref("general.oscpu.override", ""); // [HIDDEN PREF]
+   // user_pref("general.platform.override", ""); // [HIDDEN PREF]
+   // user_pref("general.useragent.override", ""); // [HIDDEN PREF]
+   // user_pref("ui.use_standins_for_native_colors", true);
+
+/*** [SECTION 9000]: PERSONAL
+   Non-project related but useful. If any interest you, add them to your overrides
+***/
+/* WELCOME & WHAT'S NEW NOTICES ***/
+user_pref("browser.startup.homepage_override.mstone", "ignore"); // master switch
+user_pref("startup.homepage_welcome_url", "");
+user_pref("startup.homepage_welcome_url.additional", "");
+user_pref("startup.homepage_override_url", ""); // What's New page after updates
+/* WARNINGS ***/
+   // user_pref("browser.tabs.warnOnClose", false);
+   // user_pref("browser.tabs.warnOnCloseOtherTabs", false);
+   // user_pref("browser.tabs.warnOnOpen", false);
+   // user_pref("full-screen-api.warning.delay", 0);
+   // user_pref("full-screen-api.warning.timeout", 0);
+/* APPEARANCE ***/
+user_pref("browser.download.autohideButton", false); // [FF57+]
+   // user_pref("ui.systemUsesDarkTheme", 1); // [FF67+] [HIDDEN PREF]
+      // 0=light, 1=dark: with RFP this only affects chrome
+   // user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true); // [FF68+] allow userChrome/userContent
+   // user_pref("ui.prefersReducedMotion", 1); // disable chrome animations [FF77+] [RESTART] [HIDDEN PREF]
+      // 0=no-preference, 1=reduce: with RFP this only affects chrome
+/* CONTENT BEHAVIOR ***/
+   // user_pref("accessibility.typeaheadfind", true); // enable "Find As You Type"
+   // user_pref("clipboard.autocopy", false); // disable autocopy default [LINUX]
+   // user_pref("layout.spellcheckDefault", 2); // 0=none, 1-multi-line, 2=multi-line & single-line
+/* UX BEHAVIOR ***/
+   // user_pref("browser.backspace_action", 2); // 0=previous page, 1=scroll up, 2=do nothing
+   // user_pref("browser.quitShortcut.disabled", true); // disable Ctrl-Q quit shortcut [LINUX] [MAC] [FF87+]
+   // user_pref("browser.tabs.closeWindowWithLastTab", false);
+   // user_pref("browser.tabs.loadBookmarksInTabs", true); // open bookmarks in a new tab [FF57+]
+   // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see bugzilla 1320061 [FF53+]
+   // user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling [DEFAULT: false on Linux]
+   // user_pref("ui.key.menuAccessKey", 0); // disable alt key toggling the menu bar [RESTART]
+   // user_pref("view_source.tab", false); // view "page/selection source" in a new window [FF68+, FF59 and under]
+/* UX FEATURES ***/
+user_pref("browser.messaging-system.whatsNewPanel.enabled", false); // What's New toolbar icon [FF69+]
+user_pref("extensions.pocket.enabled", false); // Pocket Account [FF46+]
+   // user_pref("extensions.screenshots.disabled", true); // [FF55+]
+user_pref("identity.fxaccounts.enabled", false); // Firefox Accounts & Sync [FF60+] [RESTART]
+   // user_pref("reader.parse-on-load.enabled", false); // Reader View
+/* OTHER ***/
+   // user_pref("browser.bookmarks.max_backups", 2);
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false); // disable CFR [FF67+]
+      // [SETTING] General>Browsing>Recommend extensions as you browse
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false); // disable CFR [FF67+]
+      // [SETTING] General>Browsing>Recommend features as you browse
+   // user_pref("network.manage-offline-status", false); // see bugzilla 620472
+   // user_pref("xpinstall.signatures.required", false); // enforced extension signing (Nightly/ESR)
+
+/*** [SECTION 9999]: DEPRECATED / REMOVED / LEGACY / RENAMED
+   Documentation denoted as [-]. Items deprecated in FF78 or earlier have been archived at [1]
+   [1] https://github.com/arkenfox/user.js/issues/123
+***/
+/* ESR78.x still uses all the following prefs
+// [NOTE] replace the * with a slash in the line above to re-enable them
+// FF79
+// 0212: enforce fallback text encoding to match en-US
+   // When the content or server doesn't declare a charset the browser will
+   // fallback to the "Current locale" based on your application language
+   // [TEST] https://hsivonen.com/test/moz/check-charset.htm
+   // [1] https://gitlab.torproject.org/tpo/applications/tor-browser/-/issues/20025
+   // [-] https://bugzilla.mozilla.org/1603712
+user_pref("intl.charset.fallback.override", "windows-1252");
+// FF82
+// 0206: disable geographically specific results/search engines e.g. "browser.search.*.US"
+   // i.e. ignore all of Mozilla's various search engines in multiple locales
+   // [-] https://bugzilla.mozilla.org/1619926
+user_pref("browser.search.geoSpecificDefaults", false);
+user_pref("browser.search.geoSpecificDefaults.url", "");
+// FF86
+// 1205: disable SSL Error Reporting
+   // [1] https://firefox-source-docs.mozilla.org/main/65.0/browser/base/sslerrorreport/preferences.html
+   // [-] https://bugzilla.mozilla.org/1681839
+user_pref("security.ssl.errorReporting.automatic", false);
+user_pref("security.ssl.errorReporting.enabled", false);
+user_pref("security.ssl.errorReporting.url", "");
+// 2653: disable hiding mime types (Options>General>Applications) not associated with a plugin
+   // [-] https://bugzilla.mozilla.org/1581678
+user_pref("browser.download.hide_plugins_without_extensions", false);
+// FF87
+// 0105d: disable Activity Stream recent Highlights in the Library [FF57+]
+   // [-] https://bugzilla.mozilla.org/1689405
+   // user_pref("browser.library.activity-stream.enabled", false);
+// 8002: disable PointerEvents
+   // [1] https://developer.mozilla.org/docs/Web/API/PointerEvent
+   // [-] https://bugzilla.mozilla.org/1688105
+   // user_pref("dom.w3c_pointer_events.enabled", false);
+// FF89
+// 0309: disable sending Flash crash reports
+   // [-] https://bugzilla.mozilla.org/1682030 [underlying NPAPI code removed]
+user_pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
+// 0310: disable sending the URL of the website where a plugin crashed
+   // [-] https://bugzilla.mozilla.org/1682030 [underlying NPAPI code removed]
+user_pref("dom.ipc.plugins.reportCrashURL", false);
+// 1243: block unencrypted requests from Flash on encrypted pages to mitigate MitM attacks [FF59+]
+   // [1] https://bugzilla.mozilla.org/1190623
+   // [-] https://bugzilla.mozilla.org/1682030 [underlying NPAPI code removed]
+user_pref("security.mixed_content.block_object_subrequest", true);
+// 1803: disable Flash plugin
+   // 0=deactivated, 1=ask, 2=enabled
+   // ESR52.x is the last branch to fully support NPAPI, FF52+ stable only supports Flash
+   // [NOTE] You can still override individual sites via site permissions
+   // [-] https://bugzilla.mozilla.org/1682030 [underlying NPAPI code removed]
+user_pref("plugin.state.flash", 0); // [DEFAULT: 1]
+// FF90
+// 0708: disable FTP [FF60+]
+   // [-] https://bugzilla.mozilla.org/1574475
+   // user_pref("network.ftp.enabled", false); // [DEFAULT: false FF88+]
+// 7001: enforce no offline cache storage (appCache) [FF71+]
+   // [-] https://bugzilla.mozilla.org/1694662
+user_pref("browser.cache.offline.storage.enable", false); // [DEFAULT: false FF84+]
+// ***/
+
+/* END: internal custom pref to test for syntax errors ***/
