@@ -33,6 +33,14 @@
 				"install_url": "https://addons.mozilla.org/firefox/downloads/latest/clearurls/latest.xpi",
 				"installation_mode": "normal_installed"
 			},
+			"firefox-translations-addon@mozilla.org": {
+				"install_url": "https://addons.mozilla.org/firefox/downloads/latest/firefox-translations/latest.xpi",
+				"installation_mode": "normal_installed"
+			},
+			"{036a55b4-5e72-4d05-a06c-cba2dfcc134a}": {
+				"install_url": "https://addons.mozilla.org/firefox/downloads/latest/traduzir-paginas-web/latest.xpi",
+				"installation_mode": "normal_installed"
+			},
 			"{73a6fe31-595d-460b-a920-fcc0f8843232}": {
 				"install_url": "https://addons.mozilla.org/firefox/downloads/latest/noscript/latest.xpi",
 				"installation_mode": "normal_installed"
